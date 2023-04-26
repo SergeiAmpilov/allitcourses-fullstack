@@ -6,6 +6,7 @@ export class LoggerService {
   constructor() {
     this.logger = new Logger({
       name: 'MainLogger',
+      type: 'pretty'
     });
   }
 
