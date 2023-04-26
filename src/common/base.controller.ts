@@ -15,6 +15,14 @@ export abstract class BaseController {
     return this._router;
   }
 
+  protected bindRoutes(routes: IControllerRoute[]) {
+    for(const route of routes) {
+      this.logger.log(`bind [${route.method}] ${route.path}`);
+      const handler = route.func.bind(this);
+      this.router[route.method](route.path, handler);
+    }
+  }
+
   public created(res: Response) {
     return res.sendStatus(201);
   }
@@ -28,11 +36,4 @@ export abstract class BaseController {
     return this.send<T>(res, 200, message);
   }
 
-  protected bindRoutes(routes: IControllerRoute[]) {
-    for(const route of routes) {
-      this.logger.log(`bind route method ${route.method} for path ${route.path}`);
-      const handler = route.func.bind(this);
-      this.router[route.method](route.path, handler);
-    }
-  }
 }
