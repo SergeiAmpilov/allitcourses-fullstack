@@ -22,7 +22,7 @@ export class UserController extends BaseController {
 
   login(req: Request, res: Response, next: NextFunction) {
     // this.ok(res, 'login');
-    next(new HTTPError(401, 'incorrect login'))
+    next(new HTTPError(401, 'incorrect login', 'user.login'))
   }
 
   register(req: Request, res: Response, next: NextFunction) {
