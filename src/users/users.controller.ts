@@ -6,6 +6,8 @@ import { TYPES } from "../types";
 import { ILogger } from "../logger/logger.interface";
 import "reflect-metadata";
 import { IUserController } from "./users.interface";
+import { UserLoginDto } from "./dto/user-login.dto";
+import { UserRegisterDto } from "./dto/user-register.dto";
 
 
 @injectable()
@@ -26,12 +28,13 @@ export class UserController extends BaseController implements IUserController {
     ]);
   }
 
-  login(req: Request, res: Response, next: NextFunction) {
+  login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction) {
     // this.ok(res, 'login');
-    next(new HTTPError(401, 'incorrect login', 'user.login'))
+    next(new HTTPError(401, 'incorrect login', 'user.login'));
   }
 
-  register(req: Request, res: Response, next: NextFunction) {
+  register(req: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction) {
+    console.log(req.body);
     this.ok(res, 'register');
   }
 }

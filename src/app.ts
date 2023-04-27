@@ -9,6 +9,7 @@ import { ILogger } from './logger/logger.interface';
 import { engine } from 'express-handlebars';
 import { injectable, inject } from 'inversify';
 import { TYPES } from './types';
+import { json } from 'body-parser';
 import "reflect-metadata";
 
 
@@ -29,11 +30,7 @@ export class App {
 
     this.app = express();
     this.port = 8000;
-    // this.logger = logger;
-    // this.userController = userController;
-    // this.filterController = filterController;
-    // this.exeptionFilter = exeptionFilter;
-    // this.pagesController = pagesController;
+
   }
 
   useRoutes() {
@@ -44,6 +41,10 @@ export class App {
 
   useExeptionFilters() {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
+  }
+
+  useMiddleware(): void {
+    this.app.use( json() );
   }
 
   useTemplateController() {
@@ -66,6 +67,7 @@ export class App {
 
   public async init() {
     this.useStaticFiles();
+    this.useMiddleware();
     this.useTemplateController();
     this.useRoutes();
     this.useExeptionFilters();
