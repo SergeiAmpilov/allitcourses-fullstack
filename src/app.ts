@@ -5,7 +5,7 @@ import { UserController } from './users/users.controller';
 import { FilterController } from './filter/filter.controller';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { PagesController } from './pages/pages.controller';
-import { engine } from 'express-handlebars';
+import { TemplatesController } from './templates/templates.controller';
 
 export class App {
 
@@ -23,8 +23,7 @@ export class App {
     userController: UserController,
     filterController: FilterController,
     exeptionFilter: IExeptionFilter,
-    pagesController: PagesController
-  ) {
+    pagesController: PagesController  ) {
     this.app = express();
     this.port = 8000;
     this.logger = logger;
@@ -38,7 +37,6 @@ export class App {
     this.app.use('/user', this.userController.router);
     this.app.use('/', this.filterController.router);
     this.app.use('/', this.pagesController.router);
-
   }
 
   useExeptionFilters() {
@@ -46,10 +44,10 @@ export class App {
   }
 
   useTemplateController() {
-    this.app.engine('handlebars', engine());
-    this.app.set('view engine', 'handlebars');
-    this.app.set('views', './views');
-    this.logger.log(`[handlebars] Use template controller`);
+    new TemplatesController(
+      this.logger,
+      this.app
+    )
   }
 
   public async init() {
