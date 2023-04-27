@@ -1,26 +1,27 @@
 import express, { Express } from 'express';
 import { Server }  from 'http';
-import { LoggerService } from './logger/logger.service';
 import { UserController } from './users/users.controller';
 import { FilterController } from './filter/filter.controller';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { PagesController } from './pages/pages.controller';
-import { TemplatesController } from './templates/templates.controller';
 import path from 'path';
+import { ILogger } from './logger/logger.interface';
+import { engine } from 'express-handlebars';
+
 
 export class App {
 
   app: Express;
   port: number;
   server: Server;
-  logger: LoggerService;
+  logger: ILogger;
   userController: UserController;
   filterController: FilterController;
   exeptionFilter: IExeptionFilter;
   pagesController: PagesController;
 
   constructor(
-    logger: LoggerService,
+    logger: ILogger,
     userController: UserController,
     filterController: FilterController,
     exeptionFilter: IExeptionFilter,
@@ -45,10 +46,15 @@ export class App {
   }
 
   useTemplateController() {
-    new TemplatesController(
-      this.logger,
-      this.app
-    )
+    this.app.engine('hbs', engine({
+      defaultLayout: 'main',
+      extname: 'hbs'
+    }));
+    this.app.set('view engine', 'hbs');
+    this.app.set('views', 'views');
+  
+    this.logger.log(`[handlebars] Use template controller`);
+
   }
 
   useStaticFiles() {
