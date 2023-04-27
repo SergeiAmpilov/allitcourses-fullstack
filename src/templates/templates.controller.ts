@@ -1,7 +1,6 @@
 import { LoggerService } from "../logger/logger.service";
 import { Express } from 'express';
 import { engine } from 'express-handlebars';
-import path from 'path';
 
 
 export class TemplatesController {

@@ -6,6 +6,7 @@ import { FilterController } from './filter/filter.controller';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { PagesController } from './pages/pages.controller';
 import { TemplatesController } from './templates/templates.controller';
+import path from 'path';
 
 export class App {
 
@@ -50,7 +51,14 @@ export class App {
     )
   }
 
+  useStaticFiles() {
+    const staticDirName = path.join(path.dirname(__dirname), '/public');
+    this.app.use(express.static(staticDirName));
+    this.logger.log(`[static] ${staticDirName}`);
+  }
+
   public async init() {
+    this.useStaticFiles();
     this.useTemplateController();
     this.useRoutes();
     this.useExeptionFilters();
@@ -60,6 +68,5 @@ export class App {
         this.logger.log(`Server has been successfully started on port ${this.port}`);
       }
     );
-
   }
 }
