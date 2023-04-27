@@ -36,4 +36,8 @@ export abstract class BaseController {
     return this.send<T>(res, 200, message);
   }
 
+  public render(res: Response, template: string) {
+    return res.render(template);
+  }
+
 }

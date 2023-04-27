@@ -2,6 +2,7 @@ import { App } from "./app";
 import { ExeptionFilter } from "./errors/exeption.filter";
 import { FilterController } from "./filter/filter.controller";
 import { LoggerService } from "./logger/logger.service";
+import { PagesController } from "./pages/pages.controller";
 import { UserController } from "./users/users.controller";
 
 async function bootstrap() {
@@ -12,7 +13,8 @@ async function bootstrap() {
     logger,
     new UserController(logger),
     new FilterController(logger),
-    new ExeptionFilter(logger)
+    new ExeptionFilter(logger),
+    new PagesController(logger)
   );
 
   await app.init();
