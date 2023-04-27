@@ -1,6 +1,8 @@
 import { LoggerService } from "../logger/logger.service";
 import { Express } from 'express';
 import { engine } from 'express-handlebars';
+import path from 'path';
+
 
 export class TemplatesController {
 
@@ -11,9 +13,12 @@ export class TemplatesController {
     this.app = app;
     this.logger = logger;    
 
-    this.app.engine('handlebars', engine());
-    this.app.set('view engine', 'handlebars');
-    this.app.set('views', './views');
+    this.app.engine('hbs', engine({
+      defaultLayout: 'main',
+      extname: 'hbs'
+    }));
+    this.app.set('view engine', 'hbs');
+    this.app.set('views', 'views');
   
     this.logger.log(`[handlebars] Use template controller`);
   }
