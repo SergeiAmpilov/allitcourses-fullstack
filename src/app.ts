@@ -7,32 +7,33 @@ import { PagesController } from './pages/pages.controller';
 import path from 'path';
 import { ILogger } from './logger/logger.interface';
 import { engine } from 'express-handlebars';
+import { injectable, inject } from 'inversify';
+import { TYPES } from './types';
+import "reflect-metadata";
 
 
+
+@injectable()
 export class App {
 
   app: Express;
   port: number;
   server: Server;
-  logger: ILogger;
-  userController: UserController;
-  filterController: FilterController;
-  exeptionFilter: IExeptionFilter;
-  pagesController: PagesController;
 
   constructor(
-    logger: ILogger,
-    userController: UserController,
-    filterController: FilterController,
-    exeptionFilter: IExeptionFilter,
-    pagesController: PagesController  ) {
+    @inject(TYPES.Ilogger) private logger: ILogger,
+    @inject(TYPES.UserController) private userController: UserController,
+    @inject(TYPES.FilterController) private filterController: FilterController,
+    @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
+    @inject(TYPES.PagesController) private pagesController: PagesController  ) {
+
     this.app = express();
     this.port = 8000;
-    this.logger = logger;
-    this.userController = userController;
-    this.filterController = filterController;
-    this.exeptionFilter = exeptionFilter;
-    this.pagesController = pagesController;
+    // this.logger = logger;
+    // this.userController = userController;
+    // this.filterController = filterController;
+    // this.exeptionFilter = exeptionFilter;
+    // this.pagesController = pagesController;
   }
 
   useRoutes() {
