@@ -6,4 +6,5 @@ export const TYPES = {
   FilterController: Symbol.for('FilterController'),
   ExeptionFilter: Symbol.for('ExeptionFilter'),
   PagesController: Symbol.for('PagesController'),
+  ConfigService: Symbol.for('ConfigService'),
 };

@@ -11,6 +11,7 @@ import { injectable, inject } from 'inversify';
 import { TYPES } from './types';
 import { json } from 'body-parser';
 import "reflect-metadata";
+import { IConfigservice } from './config/config.service.interface';
 
 
 
@@ -26,7 +27,8 @@ export class App {
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.FilterController) private filterController: FilterController,
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
-    @inject(TYPES.PagesController) private pagesController: PagesController  ) {
+    @inject(TYPES.PagesController) private pagesController: PagesController,
+    @inject(TYPES.ConfigService) private configService: IConfigservice   ) {
 
     this.app = express();
     this.port = 8000;
