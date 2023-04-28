@@ -12,6 +12,7 @@ import { TYPES } from './types';
 import { json } from 'body-parser';
 import "reflect-metadata";
 import { IConfigservice } from './config/config.service.interface';
+import { PrismaService } from './database/prisma.service';
 
 
 
@@ -28,6 +29,7 @@ export class App {
     @inject(TYPES.FilterController) private filterController: FilterController,
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
     @inject(TYPES.PagesController) private pagesController: PagesController,
+    @inject(TYPES.PrismaService) private prismaService: PrismaService,
     @inject(TYPES.ConfigService) private configService: IConfigservice   ) {
 
     this.app = express();
@@ -73,6 +75,7 @@ export class App {
     this.useTemplateController();
     this.useRoutes();
     this.useExeptionFilters();
+    await this.prismaService.connect();
     this.server = this.app.listen(
       this.port,
       () => {

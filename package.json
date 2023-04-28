@@ -3,7 +3,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/main.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "generate": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",

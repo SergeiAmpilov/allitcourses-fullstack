@@ -14,6 +14,7 @@ import { IUserService } from "./users/users.service.interface";
 import { UserService } from "./users/users.service";
 import { IConfigservice } from "./config/config.service.interface";
 import { ConfigService } from "./config/config.service";
+import { PrismaService } from "./database/prisma.service";
 
 const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.Ilogger).to(LoggerService).inSingletonScope();
@@ -23,6 +24,7 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<FilterController>(TYPES.FilterController).to(FilterController);
   bind<PagesController>(TYPES.PagesController).to(PagesController);
   bind<IConfigservice>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
+  bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
   bind<App>(TYPES.Application).to(App);
 });
 
