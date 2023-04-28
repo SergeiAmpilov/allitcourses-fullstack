@@ -29,12 +29,10 @@ export class UserController extends BaseController implements IUserController {
   }
 
   login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction) {
-    // this.ok(res, 'login');
     next(new HTTPError(401, 'incorrect login', 'user.login'));
   }
 
   register(req: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction) {
-    console.log(req.body);
     this.ok(res, 'register');
   }
 }
