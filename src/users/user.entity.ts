@@ -26,7 +26,7 @@ export class User {
     this._password = await hash(pass, salt);
   }
 
-  public static async checkPassword(pass: string, hashPasswd: string): Promise<boolean> {
+  public async checkPassword(pass: string, hashPasswd: string): Promise<boolean> {
     return compare(pass, hashPasswd);
   }
 
