@@ -11,13 +11,15 @@ import { UserRegisterDto } from "./dto/user-register.dto";
 import { IUserService } from "./users.service.interface";
 import { ValidateMiddeleware } from "../common/validate.middleware";
 import { sign } from 'jsonwebtoken';
+import { IConfigservice } from "../config/config.service.interface";
 
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
   constructor(
     @inject(TYPES.Ilogger) private loggerService: ILogger,
-    @inject(TYPES.UserService) private userService: IUserService
+    @inject(TYPES.UserService) private userService: IUserService,
+    @inject(TYPES.ConfigService) private configService: IConfigservice,
     ) {
     super(loggerService);
     this.bindRoutes([
@@ -46,8 +48,9 @@ export class UserController extends BaseController implements IUserController {
     next: NextFunction): Promise<void> {
     const result = await this.userService.validateUser(body);
     if (result) {
+      const jwt = await this.signJWT(body.email, this.configService.get('SECRET'));
       this.ok(res, {
-        id: result
+        jwt,
       });
     } else {
       next(new HTTPError(401, 'incorrect login', 'user.login'));
