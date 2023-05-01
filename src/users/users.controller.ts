@@ -86,9 +86,11 @@ export class UserController extends BaseController implements IUserController {
       });
   }
 
-  info({ user }: Request, res: Response, next: NextFunction): void {
+  async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
+    const userInfo = await this.userService.getUserInfo(user);
     this.ok(res, {
-      email: user,
+      email: userInfo?.email,
+      id: userInfo?.id
     })
   };
 
