@@ -7,6 +7,7 @@ import { TYPES } from "../types";
 import { IConfigservice } from "../config/config.service.interface";
 import { IUsersRepository } from "./users.repository.interface";
 import { UserModel } from "@prisma/client";
+import e from "express";
 
 @injectable()
 export class UserService implements IUserService {
@@ -50,4 +51,8 @@ export class UserService implements IUserService {
 
     return null;
   };
+
+  async getUserInfo(email: string): Promise<UserModel | null> {
+    return this.usersRepository.find(email);
+  }
 }
