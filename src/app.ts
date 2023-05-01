@@ -13,6 +13,7 @@ import { json } from 'body-parser';
 import "reflect-metadata";
 import { IConfigservice } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
+import { AuthMiddleware } from './common/auth.middleware';
 
 
 
@@ -49,6 +50,8 @@ export class App {
 
   useMiddleware(): void {
     this.app.use( json() );
+    const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+    this.app.use(authMiddleware.execute.bind(authMiddleware));
   }
 
   useTemplateController() {

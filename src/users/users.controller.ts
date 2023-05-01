@@ -12,6 +12,8 @@ import { IUserService } from "./users.service.interface";
 import { ValidateMiddeleware } from "../common/validate.middleware";
 import { sign } from 'jsonwebtoken';
 import { IConfigservice } from "../config/config.service.interface";
+import { ParamsDictionary } from "express-serve-static-core";
+import { ParsedQs } from "qs";
 
 
 @injectable()
@@ -37,6 +39,14 @@ export class UserController extends BaseController implements IUserController {
         func: this.login,
         middlewares: [
           new ValidateMiddeleware(UserLoginDto)
+        ]
+      },
+      {
+        path: '/info',
+        method: 'get',
+        func: this.info,
+        middlewares: [
+          // new ValidateMiddeleware(UserLoginDto)
         ]
       }
     ]);
@@ -74,6 +84,12 @@ export class UserController extends BaseController implements IUserController {
         id: result.id
       });
   }
+
+  info({ user }: Request, res: Response, next: NextFunction): void {
+    this.ok(res, {
+      email: user,
+    })
+  };
 
   private signJWT(email: string, secret: string): Promise<string> {
 
