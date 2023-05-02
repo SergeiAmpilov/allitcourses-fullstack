@@ -7,7 +7,6 @@ import "reflect-metadata";
 import { AdminGuard } from "../common/admin.guard";
 import { IConfigservice } from "../config/config.service.interface";
 import { FilterCredentialsDto } from "./filter-credentials.dto";
-import { IFilterRepository } from "./filter.repository.interface";
 import { HTTPError } from "../errors/http-error.class";
 import { FilterService } from "./filter.service";
 
