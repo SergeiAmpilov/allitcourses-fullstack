@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { FilterCredentialsDto } from "./filter-credentials.dto";
-import { DirectionModel, TechModel } from "@prisma/client";
+import { DirectionModel, SchoolModel, TechModel } from "@prisma/client";
 import { TYPES } from "../types";
 import { IFilterRepository } from "./filter.repository.interface";
 
@@ -33,6 +33,17 @@ export class FilterService {
     }
 
     return await this.filterRepository.createTech({ name, slug });
+  }
+
+  async createSchool({ name, slug }: FilterCredentialsDto): Promise<SchoolModel | null> {
+
+    const foundSchool = await this.filterRepository.findSchool(slug);
+
+    if (foundSchool) {
+      return null ;
+    }
+
+    return await this.filterRepository.createSchool({ name, slug });
   }
 
 }

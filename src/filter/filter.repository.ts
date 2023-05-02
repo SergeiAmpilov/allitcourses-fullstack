@@ -47,4 +47,21 @@ export class FilterRepository implements IFilterRepository {
     })
   }
 
+  async createSchool({ name, slug }: FilterCredentialsDto): Promise<SchoolModel> {
+    return this.prismaService.client.schoolModel.create({
+      data: {
+        name, 
+        slug
+      }
+    })
+  }
+
+  async findSchool(slug: string): Promise<SchoolModel | null> {
+    return this.prismaService.client.schoolModel.findFirst({
+      where: {
+        slug
+      }
+    })
+  }
+
 }

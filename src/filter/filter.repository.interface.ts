@@ -1,4 +1,4 @@
-import { DirectionModel, TechModel } from "@prisma/client";
+import { DirectionModel, SchoolModel, TechModel } from "@prisma/client";
 import { FilterCredentialsDto } from "./filter-credentials.dto";
 
 
@@ -8,5 +8,8 @@ export interface IFilterRepository {
   
   createTech: (dto: FilterCredentialsDto) => Promise<TechModel>;
   findTech: (slug: string) => Promise<TechModel | null>;
+
+  createSchool: (dto: FilterCredentialsDto) => Promise<SchoolModel>;
+  findSchool: (slug: string) => Promise<SchoolModel | null>;
   
 }

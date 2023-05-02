@@ -30,7 +30,10 @@ export class FilterController extends BaseController {
       {
         path: '/direction',
         method: 'post',
-        func: this.newDirection
+        func: this.newDirection,
+        middlewares: [
+          new AdminGuard(this.configService.get('ADMIN'))
+        ]
       },      
       {
         path: '/tech/:slug',
@@ -40,12 +43,20 @@ export class FilterController extends BaseController {
       {
         path: '/tech',
         method: 'post',
-        func: this.newTech
+        func: this.newTech,
+        middlewares: [
+          new AdminGuard(this.configService.get('ADMIN'))
+        ]
       },
       {
         path: '/school/:slug',
         method: 'get',
-        func: this.school,
+        func: this.school
+      },
+      {
+        path: '/school',
+        method: 'post',
+        func: this.newSchool,
         middlewares: [
           new AdminGuard(this.configService.get('ADMIN'))
         ]
@@ -82,13 +93,23 @@ export class FilterController extends BaseController {
     } else {
       return next(new HTTPError(422, 'this tech allready exists'));      
     }
-
-
   }
 
   school(req: Request, res: Response, next: NextFunction) {
     const { slug } = req.params;
     this.ok(res, `filter school ${slug}`);
   }
+
+  async newSchool(req: Request<{}, {}, FilterCredentialsDto>, res: Response, next: NextFunction): Promise<void> {
+    const result = await this.filterService.createSchool(req.body);
+
+    if (result) {
+      this.ok(res, { result });
+    } else {
+      return next(new HTTPError(422, 'this school allready exists'));      
+    }
+  }
+
+  
 
 }
