@@ -17,3 +17,21 @@ model UserModel {
   email    String @unique
   password String
 }
+
+model DirectionModel {
+  id       Int    @id @default(autoincrement())
+  name      String
+  slug      String @unique
+}
+
+model TechModel {
+  id       Int    @id @default(autoincrement())
+  name      String
+  slug      String @unique
+}
+
+model SchoolModel {
+  id       Int    @id @default(autoincrement())
+  name      String
+  slug      String @unique
+}

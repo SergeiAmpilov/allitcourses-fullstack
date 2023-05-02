@@ -4,12 +4,17 @@ import { injectable, inject } from 'inversify';
 import { TYPES } from "../types";
 import { ILogger } from "../logger/logger.interface";
 import "reflect-metadata";
+import { AdminGuard } from "../common/admin.guard";
+import { IConfigservice } from "../config/config.service.interface";
 
 
 
 @injectable()
 export class FilterController extends BaseController {
-  constructor(@inject(TYPES.Ilogger) private loggerService: ILogger) {
+  constructor(
+    @inject(TYPES.Ilogger) private loggerService: ILogger,
+    @inject(TYPES.ConfigService) private configService: IConfigservice
+    ) {
     super(loggerService);
     this.bindRoutes([
       {
@@ -26,7 +31,10 @@ export class FilterController extends BaseController {
       {
         path: '/school/:slug',
         method: 'get',
-        func: this.school
+        func: this.school,
+        middlewares: [
+          new AdminGuard(this.configService.get('ADMIN'))
+        ]
       },
     ]);
   }
