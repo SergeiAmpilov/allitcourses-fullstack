@@ -9,6 +9,7 @@ import { IConfigservice } from "../config/config.service.interface";
 import { FilterCredentialsDto } from "./filter-credentials.dto";
 import { IFilterRepository } from "./filter.repository.interface";
 import { HTTPError } from "../errors/http-error.class";
+import { FilterService } from "./filter.service";
 
 
 
@@ -17,7 +18,7 @@ export class FilterController extends BaseController {
   constructor(
     @inject(TYPES.Ilogger) private loggerService: ILogger,
     @inject(TYPES.ConfigService) private configService: IConfigservice,
-    @inject(TYPES.FilterRepository) private filterRepository: IFilterRepository,
+    @inject(TYPES.FilterService) private filterService: FilterService
     ) {
     super(loggerService);
     this.bindRoutes([
@@ -53,7 +54,7 @@ export class FilterController extends BaseController {
   }
 
   async newDirection(req: Request<{}, {}, FilterCredentialsDto>, res: Response, next: NextFunction): Promise<void> {
-    const result = await this.filterRepository.createDirection(req.body);
+    const result = await this.filterService.createDirection(req.body);
 
     if (result) {
       this.ok(res, { result });

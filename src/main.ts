@@ -19,6 +19,7 @@ import { IUsersRepository } from "./users/users.repository.interface";
 import { UsersRepository } from "./users/users.repository";
 import { IFilterRepository } from "./filter/filter.repository.interface";
 import { FilterRepository } from "./filter/filter.repository";
+import { FilterService } from "./filter/filter.service";
 
 const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.Ilogger).to(LoggerService).inSingletonScope();
@@ -31,6 +32,7 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
   bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inRequestScope();
   bind<IFilterRepository>(TYPES.FilterRepository).to(FilterRepository).inSingletonScope();
+  bind<FilterService>(TYPES.FilterService).to(FilterService);
   bind<App>(TYPES.Application).to(App);
 });
 

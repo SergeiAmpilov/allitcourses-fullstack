@@ -22,4 +22,12 @@ export class FilterRepository implements IFilterRepository {
     })
   }
 
+  async findDirection(slug: string): Promise<DirectionModel | null> {
+    return this.prismaService.client.directionModel.findFirst({
+      where: {
+        slug
+      }
+    })
+  }
+
 }
