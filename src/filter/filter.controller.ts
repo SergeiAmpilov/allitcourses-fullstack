@@ -38,6 +38,11 @@ export class FilterController extends BaseController {
         func: this.tech
       },
       {
+        path: '/tech',
+        method: 'post',
+        func: this.newTech
+      },
+      {
         path: '/school/:slug',
         method: 'get',
         func: this.school,
@@ -67,6 +72,18 @@ export class FilterController extends BaseController {
   tech(req: Request, res: Response, next: NextFunction) {
     const { slug } = req.params;
     this.ok(res, `filter tech ${slug}`);
+  }
+
+  async newTech(req: Request<{}, {}, FilterCredentialsDto>, res: Response, next: NextFunction): Promise<void> {
+    const result = await this.filterService.createTech(req.body);
+
+    if (result) {
+      this.ok(res, { result });
+    } else {
+      return next(new HTTPError(422, 'this tech allready exists'));      
+    }
+
+
   }
 
   school(req: Request, res: Response, next: NextFunction) {

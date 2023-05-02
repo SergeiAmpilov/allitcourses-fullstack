@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { FilterCredentialsDto } from "./filter-credentials.dto";
-import { DirectionModel } from "@prisma/client";
+import { DirectionModel, TechModel } from "@prisma/client";
 import { TYPES } from "../types";
 import { IFilterRepository } from "./filter.repository.interface";
 
@@ -22,6 +22,17 @@ export class FilterService {
     }
 
     return await this.filterRepository.createDirection({ name, slug });
+  }
+
+  async createTech({ name, slug }: FilterCredentialsDto): Promise<TechModel | null> {
+
+    const foundTech = await this.filterRepository.findTech(slug);
+
+    if (foundTech) {
+      return null ;
+    }
+
+    return await this.filterRepository.createTech({ name, slug });
   }
 
 }

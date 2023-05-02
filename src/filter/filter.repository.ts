@@ -30,4 +30,21 @@ export class FilterRepository implements IFilterRepository {
     })
   }
 
+  async createTech({ name, slug }: FilterCredentialsDto): Promise<TechModel> {
+    return this.prismaService.client.techModel.create({
+      data: {
+        name, 
+        slug
+      }
+    })
+  }
+
+  async findTech(slug: string): Promise<TechModel | null> {
+    return this.prismaService.client.techModel.findFirst({
+      where: {
+        slug
+      }
+    })
+  }
+
 }
