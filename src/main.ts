@@ -17,6 +17,8 @@ import { ConfigService } from "./config/config.service";
 import { PrismaService } from "./database/prisma.service";
 import { IUsersRepository } from "./users/users.repository.interface";
 import { UsersRepository } from "./users/users.repository";
+import { IFilterRepository } from "./filter/filter.repository.interface";
+import { FilterRepository } from "./filter/filter.repository";
 
 const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.Ilogger).to(LoggerService).inSingletonScope();
@@ -28,6 +30,7 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IConfigservice>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
   bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
   bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inRequestScope();
+  bind<IFilterRepository>(TYPES.FilterRepository).to(FilterRepository).inSingletonScope();
   bind<App>(TYPES.Application).to(App);
 });
 

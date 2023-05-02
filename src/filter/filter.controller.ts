@@ -6,6 +6,9 @@ import { ILogger } from "../logger/logger.interface";
 import "reflect-metadata";
 import { AdminGuard } from "../common/admin.guard";
 import { IConfigservice } from "../config/config.service.interface";
+import { FilterCredentialsDto } from "./filter-credentials.dto";
+import { IFilterRepository } from "./filter.repository.interface";
+import { HTTPError } from "../errors/http-error.class";
 
 
 
@@ -13,7 +16,8 @@ import { IConfigservice } from "../config/config.service.interface";
 export class FilterController extends BaseController {
   constructor(
     @inject(TYPES.Ilogger) private loggerService: ILogger,
-    @inject(TYPES.ConfigService) private configService: IConfigservice
+    @inject(TYPES.ConfigService) private configService: IConfigservice,
+    @inject(TYPES.FilterRepository) private filterRepository: IFilterRepository,
     ) {
     super(loggerService);
     this.bindRoutes([
@@ -22,7 +26,11 @@ export class FilterController extends BaseController {
         method: 'get',
         func: this.direction
       },
-      
+      {
+        path: '/direction',
+        method: 'post',
+        func: this.newDirection
+      },      
       {
         path: '/tech/:slug',
         method: 'get',
@@ -42,6 +50,17 @@ export class FilterController extends BaseController {
   direction(req: Request, res: Response, next: NextFunction) {
     const { slug } = req.params;
     this.ok(res, `filter direction ${slug}`);
+  }
+
+  async newDirection(req: Request<{}, {}, FilterCredentialsDto>, res: Response, next: NextFunction): Promise<void> {
+    const result = await this.filterRepository.createDirection(req.body);
+
+    if (result) {
+      this.ok(res, { result });
+    } else {
+      return next(new HTTPError(422, 'this direction allready exists'));      
+    }
+
   }
 
   tech(req: Request, res: Response, next: NextFunction) {
