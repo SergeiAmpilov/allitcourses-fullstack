@@ -35,3 +35,10 @@ model SchoolModel {
   name      String
   slug      String @unique
 }
+
+model CourseModel {
+  id        Int    @id @default(autoincrement())
+  name      String
+  slug      String @unique
+  price     Int
+}
